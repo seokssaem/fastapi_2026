@@ -1,0 +1,115 @@
+
+<style>
+.swagger-wrap { font-family: var(--font-sans); padding: 1rem 0; }
+.sw-header { background: #1b1b1b; color: #fff; padding: 10px 16px; border-radius: 8px 8px 0 0; font-size: 13px; display: flex; align-items: center; gap: 8px; }
+.sw-header span { font-size: 11px; background: #89bf04; color: #fff; padding: 2px 8px; border-radius: 4px; font-weight: 600; }
+.endpoint-box { border: 0.5px solid var(--color-border-tertiary); margin-bottom: 6px; border-radius: 6px; overflow: hidden; }
+.ep-bar { display: flex; align-items: center; gap: 10px; padding: 8px 12px; cursor: default; }
+.method { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 4px; min-width: 48px; text-align: center; }
+.get { background: #e8f3ff; color: #0c4a9e; }
+.post { background: #e6f4ea; color: #1a5c28; }
+.patch { background: #fff8e1; color: #7a4f00; }
+.delete { background: #fde8e8; color: #8b1a1a; }
+.ep-path { font-size: 13px; font-family: var(--font-mono); color: var(--color-text-primary); }
+.ep-desc { font-size: 12px; color: var(--color-text-secondary); margin-left: auto; }
+.ep-body { border-top: 0.5px solid var(--color-border-tertiary); padding: 12px 16px; background: var(--color-background-secondary); }
+
+.label { font-size: 10px; font-weight: 600; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.annotation-box { border-left: 3px solid; padding: 8px 12px; margin: 8px 0; border-radius: 0 6px 6px 0; font-size: 12px; line-height: 1.6; }
+.ann-blue { border-color: #378add; background: #e6f1fb; color: #0c447c; }
+.ann-green { border-color: #639922; background: #eaf3de; color: #27500a; }
+.ann-amber { border-color: #ba7517; background: #faeeda; color: #633806; }
+.ann-red { border-color: #a32d2d; background: #fcebeb; color: #501313; }
+
+.section-title { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin: 16px 0 8px; }
+.row { display: flex; gap: 10px; margin-bottom: 6px; }
+.badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 600; }
+.code-block { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: 6px; padding: 10px 14px; font-family: var(--font-mono); font-size: 12px; color: var(--color-text-primary); margin: 6px 0; line-height: 1.7; }
+.arrow { color: var(--color-text-secondary); font-size: 11px; }
+</style>
+
+<div class="swagger-wrap">
+  <h2 class="sr-only">스웨거 UI 구조 설명</h2>
+
+  <div class="section-title">① 엔드포인트 목록</div>
+  <div class="endpoint-box">
+    <div class="ep-bar">
+      <span class="method get">GET</span>
+      <span class="ep-path">/menus</span>
+      <span class="ep-desc">전체 메뉴 목록 반환</span>
+    </div>
+  </div>
+  <div class="endpoint-box">
+    <div class="ep-bar">
+      <span class="method post">POST</span>
+      <span class="ep-path">/menus</span>
+      <span class="ep-desc">새 메뉴 등록</span>
+    </div>
+    <div class="ep-body">
+
+      <div class="label">② Parameters (경로/쿼리 파라미터)</div>
+      <div class="annotation-box ann-blue">
+        URL에 포함되는 값들<br>
+        예: <code>/menus/<b>1</b></code> → menu_id = 1<br>
+        예: <code>/menus?page=<b>2</b></code> → page = 2<br>
+        <b>이 엔드포인트는 파라미터 없음</b>
+      </div>
+
+      <div class="label" style="margin-top:12px">③ Request Body (요청 바디)</div>
+      <div class="annotation-box ann-green">
+        POST/PATCH 때 클라이언트가 서버로 보내는 JSON<br>
+        <code>Try it out</code> 클릭 후 직접 입력 가능
+      </div>
+      <div class="code-block">{
+  "name": "김치찌개",
+  "category": "한식",
+  "price": 9000
+}</div>
+
+      <div class="label" style="margin-top:12px">④ Responses (응답 코드 목록)</div>
+      <div class="annotation-box ann-amber">
+        서버가 돌려줄 수 있는 HTTP 상태코드 목록<br>
+        <b>여기서 헷갈리는 부분이 바로 이 아래!</b>
+      </div>
+
+      <div class="row" style="margin-top:6px">
+        <span class="badge" style="background:#e6f4ea;color:#1a5c28">201</span>
+        <span style="font-size:12px;color:var(--color-text-secondary)">성공 시 응답 예시 (response_model 기반 자동 생성)</span>
+      </div>
+      <div class="code-block">{
+  "id": 5,
+  "name": "김치찌개",
+  "category": "한식",
+  "price": 9000,
+  "like": 0
+}</div>
+
+      <div class="row">
+        <span class="badge" style="background:#fde8e8;color:#8b1a1a">422</span>
+        <span style="font-size:12px;color:var(--color-text-secondary)">유효성 검사 실패 — FastAPI 자동 생성, 항상 존재</span>
+      </div>
+      <div class="annotation-box ann-red">
+        ← 이게 "응답 결과 밑에 또 나오는 것"의 정체!<br>
+        실제 에러가 아니라 <b>"이런 에러가 날 수 있다"는 명세</b>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section-title" style="margin-top:20px">422가 항상 나오는 이유</div>
+  <div class="annotation-box ann-blue" style="border-color:#378add">
+    FastAPI + Pydantic 조합은 요청 데이터를 자동으로 검증함.<br>
+    타입 불일치, 필수 필드 누락 등 → 422 자동 반환.<br>
+    그래서 모든 엔드포인트에 422 명세가 <b>자동으로 붙음</b>.
+  </div>
+
+  <div class="section-title" style="margin-top:16px">Responses 섹션 구조 요약</div>
+  <div class="code-block">실제 응답 (Execute 후 나오는 것)
+  → 서버가 지금 막 돌려준 진짜 데이터
+
+Responses 명세 (그 아래 항상 있는 것)
+  → "이 API는 이런 응답을 줄 수 있다"는 설명서
+  → 201 : 성공했을 때 구조
+  → 422 : 잘못된 요청일 때 구조  ← 이게 헷갈렸던 부분</div>
+
+</div>
