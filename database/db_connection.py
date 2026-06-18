@@ -24,7 +24,7 @@ DATABASE_URL = 'postgresql+psycopg2://postgres:1234@localhost:5432/tododb'
 engine = create_engine(DATABASE_URL, echo=True)
 
 # 세션 팩토리 생성
-SesstionFactory = sessionmaker(
+SessionFactory = sessionmaker(
     autocommit=False,  # session.commit()을 직접 호출해야 DB에 반영
     autoflush=False, # flush : commit전에 SQL을 실행하는 중간 단계
     expire_on_commit=False, # commit 후에도 데이터가 메모리에 유지된다. (True라면 db다시 조회)

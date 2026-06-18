@@ -1,19 +1,11 @@
 from schema.request import ArticleRequest, ArticleUpdateRequest
 from schema.response import ArticleResponse
 from fastapi import FastAPI, HTTPException, status
-from sqlalchemy.orm import Session
-from database.db_connection import get_session
-from sqlalchemy import select
-from database.db_connection import engine, SessionFactory
-from database.orm import Base
-from models import Article
-
-Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title='블로그 API',
     description='FastAPI 입문 실습 과제 - 블로그',
-    version='1.1.0'
+    version='1.0.0'
 )
 
 # 0. 임시 데이터 저장소 (메모리)
