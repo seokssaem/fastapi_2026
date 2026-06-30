@@ -20,3 +20,18 @@
 - 공식 FastAPI 튜토리얼 예제를 PostgreSQL로 변환한 버전이다.
 - `User`(사용자)가 여러 개의 `Item`(아이템)을 소유하는 **1:N 관계** 구조
 - `crud.py`를 별도로 분리하여 DB 조작 로직과 라우터 로직을 나눈다.
+
+```
+fastapi_review
+ ┣ routers
+ ┃ ┣ items.py
+ ┃ ┣ users.py
+ ┃ ┗ __init__.py
+ ┣ crud.py
+ ┣ database.py
+ ┣ dependencies.py
+ ┣ main.py
+ ┣ models.py
+ ┣ README.md
+ ┗ schemas.py
+```
