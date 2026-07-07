@@ -7,7 +7,7 @@
 
 from database import init_db
 from loader import load_from_csv
-# <<검증 모듈>>
+from verify import verify
 
 def main():
     print('1) 저장 구조 재설계 (기본키 + UNIQUE 제약 적용)')
@@ -19,7 +19,7 @@ def main():
 
     print()
     print('3) 적재 검증')
-    # 검증 함수 호출
+    verify()  # 검증 함수 호출
 
 if __name__ == '__main__':
     main()
