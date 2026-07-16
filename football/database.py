@@ -25,7 +25,7 @@ from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
 SQLALCHEMY_DATABASE_URL = os.getenv(
     'DATABASE_URL',
-    'postgresql+psycopg://postgres:1234@localhost:5432/swc_api'
+    'postgresql://postgres:1234@localhost:5432/swc_api'
 )
 
 # ------------------------------------------------------------------------------------

@@ -93,3 +93,64 @@ def get_leagues(db: Session, skip: int = 0, limit: int = 100,
 
     # .unique() --> 중복된 리그 행을 하나로 합쳐라.
     return db.scalars(stmt).unique().all()
+
+def get_teams(db: Session, skip: int = 0, limit: int = 100, 
+              min_last_changed_date: date | None = None,
+              team_name: str | None = None, league_id: int | None = None):
+    """
+    팀 목록을 조회, league_id를 주면 특정 리그 소속 팀만 필터링
+
+    --------------------------------------------------------
+    team.team_players --> "이 팀에 연결된 TeamPlayer(가입 기록) 목록" --> 그 TeamPlayer 
+        각각의 .player는 다시 "그 기록에 연결된 Player 객체"
+        즉 Team -> TeamPlayer -> Player 로 두 단계를 거쳐야 선수 정보까지 닿는다.
+
+    selectinload(models.Team.team_players)
+        Team을 다 가져온 뒤, " team_players를 위한 추가 SELECT 1번" 더 날려서 한번에 채운다.
+        (joinedload처럼 JOIN해서 행이 늘어나는 방식이 아니라, 
+        별도의 IN 조회를 한 번 더 하는 방식)
+
+    .joinedload(models.TeamPlayer.player)
+        그 다음 단계(TeamPlayer -> Player)는 seletionload가 만든 두 번째 쿼리 안에서 
+        JOIN으로 같이 가져온다.
+    
+    --> 1단계 selectinload(추가 쿼리 방식), 2단계는 joinedload(같은 쿼리 안에서 JOIN)를
+    체이닝해서 총 2번의 쿼리로 team + team_player + player 정보를 다 채워온다.
+    """
+    stmt = select(models.Team).options(
+        selectinload(models.Team.team_players).joinedload(models.TeamPlayer.player)
+    )
+    if min_last_changed_date:
+        stmt = stmt.where(models.Team.last_changed_date >= min_last_changed_date)
+    if team_name:
+        stmt = stmt.where(models.Team.team_name == team_name)
+    if league_id:
+        stmt = stmt.where(models.Team.league_id == league_id)
+    stmt = stmt.offset(skip).limit(limit)
+    return db.scalars(stmt).all()
+
+# 분석 쿼리(단순 카운트)-------------------------
+def _count(db: Session, model: type) -> int:
+    """
+    특정 모델(테이블)의 전체 행 개수를 센다.
+
+    함수앞의 밑줄(_count) --> 이 파일 안에서만 쓰는 내부 도우미 함수라는 뜻의 관례표시
+
+    select(func.count()).select_from(model)
+        SQL문 "SELECT COUNT(*) FROM 테이블명" 과 같은 뜻
+
+    db.scalar(...) --> 결과 딱 1개 값만 꺼낸다.
+    """
+    return db.scalar(select(func.count()).select_from(model)) or 0
+
+def get_player_count(db: Session):
+    """전체 선수 수를 센다."""
+    return _count(db, models.Player)
+
+def get_team_count(db: Session):
+    """전체 팀 수를 센다."""
+    return _count(db, models.Team)
+
+def get_league_count(db: Session):
+    """전체 리그 수를 센다."""
+    return _count(db, models.League)
