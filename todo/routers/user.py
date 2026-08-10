@@ -1,15 +1,16 @@
 # ==================================================================================
 # routers/user.py
 # - 회원(User)과 관련된 API 엔드포인트를 모아놓은 라우터 파일
-# - 현재는 회원가입 1개만 구현되어 있다. (로그인 아직 없음)
+# - 현재는 회원가입 1개만 구현되어 있다. (로그인 추가 - JWT 인증 방식)
 # ==================================================================================
-from fastapi import APIRouter, status, HTTPException
+from fastapi import APIRouter, status, HTTPException, Depends, BackgroundTasks, Request
 from sqlalchemy import select
-from schema.request import UserSignUpRequest
+from schema.request import UserSignUpRequest, UserLoginRequest
 from schema.response import UserSignUpResponse
-from database.db_connection import SessionFactory
+from database.db_connection import SessionFactory, get_session
 from models import User
-from auth.password import hash_password
+from auth.password import hash_password, verify_password
+from auth.jwt import create_access_token
 
 router = APIRouter(tags=['User'])
 
