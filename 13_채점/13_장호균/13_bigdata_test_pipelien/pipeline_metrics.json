@@ -1,0 +1,11 @@
+﻿{
+  "model_summary": "Pipeline (ColumnTransformer + RandomForestClassifier)",
+  "accuracy": 0.9654,
+  "roc_auc_score": 0.9946,
+  "confusion_matrix": {
+    "true_negative": 112,
+    "false_positive": 7,
+    "false_negative": 2,
+    "true_positive": 139
+  }
+}
