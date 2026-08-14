@@ -79,4 +79,4 @@ class UserService:
         user = self.repository.find_by_id(user_id)
         if user:
             user.refresh_token = None  # None으로 초기화 (로그아웃)
-            self.repository.saver(user)  # 로그아웃한 것을 저장
+            self.repository.save(user)  # 로그아웃한 것을 저장

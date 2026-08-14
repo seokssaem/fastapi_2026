@@ -9,7 +9,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 # tododb 데이터베이스가 먼저 생성되어 있어야 한다.
-DATABASE_URL = 'postgresql+psycopg2://postgres:1234@localhost:5432/tododb'
+DATABASE_URL = 'postgresql+psycopg2://postgres:1234@localhost:5432/tododb2'
 
 # 엔진 생성 - DB와의 실제 연결을 관리하는 객체
 # echo=True --> 실행되는 SQL을 터미널에 출력 (학습용, 실무에서는 False)
