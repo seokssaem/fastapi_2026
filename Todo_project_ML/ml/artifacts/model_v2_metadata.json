@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "trained_at": "2026-08-20T10:22:44",
+  "n_samples": 25,
+  "accuracy": 0.4,
+  "categories": [
+    "개인",
+    "긴급",
+    "업무"
+  ],
+  "source_data": "sample_labeled_data.csv"
+}

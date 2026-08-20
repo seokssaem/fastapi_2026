@@ -70,3 +70,4 @@ class TodoService:
     def delete_todo(self, todo_id: int, user_id: int) -> None:
         todo = self.get_todo(todo_id, user_id) # 삭제할 할일 목록을 찾아온다.
         self.repository.delete(todo)
+

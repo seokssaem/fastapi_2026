@@ -17,6 +17,9 @@ class TodoResponse(BaseModel):
     is_done: bool
     # "이 할 일이 누구의 것인지"를 클라이언트가 화면에서 구분할 수 있도록 추가
     user_id: int | None
+    # ===== ML 추가 =========
+    predicted_category: str | None = None
+    final_category: str | None = None
 
 # --- 회원가입 응답 모델 ------------------------------------------
 # Pydantic이 password를 필터링 시켜 제외

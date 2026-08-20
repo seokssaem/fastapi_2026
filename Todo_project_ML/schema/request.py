@@ -14,6 +14,7 @@ from pydantic import BaseModel, EmailStr, Field, field_validator
 class TodoCreateRequest(BaseModel):
     title: str    # 할 일의 제목, 문자열, 필수값
     is_done: bool = False  # 할 일을 했다?안했다? --> 기본값 False
+    
 
 # --- 할 일 수정 요청 모델 -------------------
 # 두 필드 모두 Optional인 이유 --> PATCH는 "부분 수정 허용"(부분 수정이 원칙)
@@ -21,6 +22,7 @@ class TodoCreateRequest(BaseModel):
 class TodoUpdateRequest(BaseModel):
     title: str | None = None
     is_done: bool | None = None
+    
 
 # --- 회원가입 요청 모델 -------------------------------------------------------------
 class UserSignUpRequest(BaseModel):

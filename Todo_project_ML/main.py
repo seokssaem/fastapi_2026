@@ -16,6 +16,7 @@ from database.db_connection import engine
 from database.orm import Base
 from routers.todo import router as todo_router
 from routers.user import router as user_router
+from routers.ml import router as ml_router
 from contextlib import asynccontextmanager
 
 # 모델 경로

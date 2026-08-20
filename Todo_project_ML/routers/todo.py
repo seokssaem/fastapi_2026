@@ -10,7 +10,7 @@ from fastapi import HTTPException, APIRouter, Depends, UploadFile, File
 # starlette : FastAPI가 내부적으로 사용하는 ASGI프레임 워크
 from starlette import status # status : HTTP 상태코드를 숫자 대신 읽기 쉬운 이름(상수)으로 사용하게 한다.
 from database.db_connection import get_session
-from schema.request import TodoCreateRequest, TodoUpdateRequest
+from schema.request import TodoCreateRequest, TodoUpdateRequest, CategoryUpdateRequest
 from schema.response import TodoResponse
 from auth.dependencies import get_current_user_id
 from repositories.todo_repository import TodoRepository
@@ -18,13 +18,21 @@ from services.todo_service import TodoService
 from pathlib import Path
 from fastapi.responses import FileResponse
 import shutil  # 파일/폴더를 복사,이동,삭제,압축하는 고수준파일 작업을 제공하는 표준 라이브러리
+from fastapi import Request 
+from services.category_service import CategoryPredictionService
 
 router = APIRouter(tags=['Todo'])
 UPLOAD_DIR = Path('uploads')
 
-def get_todo_service(session=Depends(get_session)) -> TodoService:
+def get_todo_service(request: Request, session=Depends(get_session)) -> TodoService:
     """라우터가 사용할 TodoService를 만들어주는 함수"""
-    return TodoService(TodoRepository(session))
+    category_model = getattr(request.app.state, "category_model", None)
+    category_service = CategoryPredictionService(category_model) if category_model else None
+    return TodoService(TodoRepository(session), category_service)
+
+# def get_todo_service(session=Depends(get_session)) -> TodoService:
+#     """라우터가 사용할 TodoService를 만들어주는 함수"""
+#     return TodoService(TodoRepository(session))
 
 # Depens--> FastAPI의 의존성 주입 기능
 #       이 엔드포인트가 실행되기 전에, 이 함수부터 먼저 실행해서 결과라 파라미터에 넣어줘.
@@ -72,3 +80,13 @@ def delete_todo_hander(
     service: TodoService = Depends(get_todo_service),
 ):
     service.delete_todo(todo_id, user_id)
+
+# ==============
+@router.patch("/todos/{todo_id}/category", response_model=TodoResponse)
+def update_todo_category_handler(
+    todo_id: int,
+    request: CategoryUpdateRequest,
+    todo_service: TodoService = Depends(get_todo_service),
+    user_id: int = Depends(get_current_user_id),  # 기존 인증 의존성 그대로 재사용
+):
+    return todo_service.update_category(todo_id, request.category, user_id)    
