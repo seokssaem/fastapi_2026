@@ -1,7 +1,7 @@
 '''
 home_library_v0 / main.py
 -----------------------------
-Version 2 - 진짜 이미지인지 검증
+Version 3 - ISBN 추출
 
 예광탄 방식을 활용한 아주 얇은 코드
 '''
@@ -13,6 +13,7 @@ from sqlalchemy.orm import Session
 from PIL import Image, UnidentifiedImageError
 from database import Base, engine, get_db
 from models import Book
+from services.recognition import extract_isbn  # version 3에서 추가
 
 UPLOAD_DIR = Path('uploads')
 UPLOAD_DIR.mkdir(exist_ok=True)
@@ -55,9 +56,17 @@ def scan_book(image: UploadFile = File(...), db: Session = Depends(get_db)):
 
     # image.file.read() --> 업로드 된 파일의 실제 바이트 내용을 읽어온다.
     # path.write_bytes(...) --> 그 바이트를 위에서 만든 경로에 실제 파일로 저장
-    path.write_bytes(image.file.read())
+    path.write_bytes(raw)
 
-    book = Book(title='테스트북(임시)', cover_path=str(path), recognition_status='confirmed')
+    # V3 --> extract_isbn(path) --> 방금 저장한 사진 파일 경로를 넘겨서 ISBN처럼 생긴 문자열을 뽑아온다.
+    isbn = extract_isbn(path)
+
+    title = f'인식된 ISBN: {isbn}' if isbn else '확인 필요: 인식 실패'
+
+    status_value = 'confirmed' if isbn else 'needs_review'
+
+
+    book = Book(title=title, isbn=isbn, cover_path=str(path), recognition_status=status_value)
 
     db.add(book)  # 이 책 데이터 저장 대기열에 올린다. (아직 DB에 실제로 사용되지는 않는다.)
     db.commit()  # 대기열에 올린 내용을 실제로 DB에 확정 저장
