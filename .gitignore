@@ -11,5 +11,5 @@ wheels/
 .venv
 
 .env
-
-echo "home_library_v1/.env" >> .gitignore
+_home_library_v1/.env
+_home_library_v2/.env
