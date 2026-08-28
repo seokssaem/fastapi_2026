@@ -1,0 +1,20 @@
+<!-- base.html의 뼈대(레이아웃)를 그대로 물려받는다 -->
+{% extends "base.html" %}
+
+<!-- base.html의 중괄호% block content %중괄호 자리를 이 내용으로 채운다 -->
+{% block content %}
+<h1>상품 목록</h1>
+
+<!-- main.py에 있는 더미데이터 products리스트를 하나씩 꺼내면서 카트 형태로 반복 출력 -->
+{% for product in products %}
+<div class="card mb-3">
+    <div class="card-body">
+        <h5>{{ product.name }}</h5>
+        <p>{{ product.price }}원</p>
+    </div>
+</div>
+{% else %}
+<!-- products가 빈 리스트일 때만 이 블록이 실행된다. -->
+<p>등록된 상품이 없습니다.</p>
+{% endfor %}
+{% endblock %}
