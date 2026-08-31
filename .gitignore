@@ -10,6 +10,14 @@ wheels/
 # Virtual environments
 .venv
 
-.env
-_home_library_v1/.env
-_home_library_v2/.env
+# 루트 .gitignore
+
+# 모든 하위 폴더의 .env, uploads/ 를 전부 제외
+**/.env
+**/uploads/
+
+# 파이썬 공통
+**/__pycache__/
+**/.venv/
+*.pyc
+**/.pytest_cache/
