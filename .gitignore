@@ -21,3 +21,7 @@ wheels/
 **/.venv/
 *.pyc
 **/.pytest_cache/
+
+worldcup/
+15_서버프로그램구현_1조/
+Refrigerator_project/
