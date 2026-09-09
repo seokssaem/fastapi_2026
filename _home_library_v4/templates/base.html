@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}우리집 책장{% endblock %}</title>
     <!-- 부트스트랩 5.3.8 CDN : 별도의 파일을 프로젝트에 내려받지 않고, 링크만 걸어서 사용 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- 부트스트랩 Icons : 네비게이션이나 버튼에 아이콘을 사용하기 위한 무료 아이콘 세트 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <!-- 커스텀 CSS : 브랜드 컬러, 카드 디자인, 폰트 등 최소한의 디자인 설정, static폴더안에 css넣어둔다. -->
@@ -17,9 +17,9 @@
         <div class="container">
             <a href="#" class="navbar-brand">우리집 책장</a>
             <div class="navbar-nav">
-                <a href="#" class="nav-link">서재 보기</a>
-                <a href="#" class="nav-link">ISBN 조회 등록</a>
-                <a href="#" class="nav-link">표지 사진 등록</a>
+                <a href="/shelf" class="nav-link">서재 보기</a>
+                <a href="/ui/books/lookup" class="nav-link">ISBN 조회 등록</a>
+                <a href="/ui/books/register" class="nav-link">표지 사진 등록</a>
             </div>
         </div>
     </nav>

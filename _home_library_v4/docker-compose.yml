@@ -1,4 +1,4 @@
-# 우리집 책장 v3 : FastAPI(api) + Streamlit(web) + PostgreSQL(db) 세 컨테이너를 함께 실행하기 위한 설정 파일
+# 우리집 책장 v4 : FastAPI(api) + Streamlit(web) + PostgreSQL(db) 세 컨테이너를 함께 실행하기 위한 설정 파일
 
 services:
   api:

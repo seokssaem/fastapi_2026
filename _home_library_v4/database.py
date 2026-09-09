@@ -16,9 +16,9 @@ from sqlalchemy.orm import DeclarativeBase, sessionmaker
 #   넘겨주면 그 값을 사용한다.
 #   만약 환경변수가 없으면(=로컬에서 바로 실행할 경우) 기존처럼 사용하기 위해
 #   기본값('postgresql+psycopg2://postgres:1234@localhost:5432/home_library_v1')을 
-#   넣을 때도 있다. (우리는 생략함)
+#   넣을 때도 있다. (우리는 생략함 ---> 로컬에서 안돌아간다!)
 # - '로컬 실행'과 '도커 컨테이너 실행' 두 가지 환경을 모두 고려했다. 
-DATABASE_URL = os.getenv('DATABASE_URL')
+DATABASE_URL = os.getenv('DATABASE_URL', 'postgresql+psycopg2://postgres:1234@localhost:5432/home_library_v1')
 
 engine = create_engine(DATABASE_URL) # SQLAlchemy가 실제와 DB와 통신할 때 사용하는 핵심 객체 
 SessionLocal = sessionmaker(bind=engine) # engine에 연결된 세션(대화창)을 만들어주는 팩토리
